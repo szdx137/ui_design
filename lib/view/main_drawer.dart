@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ui_design/view/contact_us.dart';
 import 'package:ui_design/view/first_page.dart';
-import 'package:ui_design/view/home_page.dart';
 import 'package:ui_design/view/settings.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -13,8 +12,8 @@ class MainDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text("Abhilasha Sedain"),
-            accountEmail: Text("abbilasha24@gmail.com"),
+            accountName: Text("User"),
+            accountEmail: Text("user@gmail.com"),
             currentAccountPicture: new CircleAvatar(
               radius: 60.0,
               backgroundColor: Color(0xFF18D191),
@@ -28,13 +27,6 @@ class MainDrawer extends StatelessWidget {
             title: Text("Home"),
             onTap: () {
               Navigator.of(context).pop();
-
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(),
-                ),
-              );
             },
           ),
           ListTile(
@@ -55,8 +47,6 @@ class MainDrawer extends StatelessWidget {
             leading: Icon(Icons.contacts),
             title: Text("Contact Us"),
             onTap: () {
-              
-              
               Navigator.of(context).pop();
               Navigator.push(
                 context,

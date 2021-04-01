@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ui_design/model/login_model.dart';
 import 'package:ui_design/service/login_service.dart';
 import 'package:ui_design/view/home_page.dart';
+import 'package:ui_design/view/overlay_progressbar.dart';
 import 'package:ui_design/view/stacked_icons.dart';
 
 class LoginPage extends StatefulWidget {
@@ -26,17 +28,6 @@ class _LoginPageState extends State<LoginPage> {
         .login(new LoginRequestModel(email: email, password: password));
 
     loginResponseModel = loginService.loginResponseModel;
-  }
-
-  buildShowDialog(BuildContext context) {
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        });
   }
 
   @override
@@ -111,10 +102,12 @@ class _LoginPageState extends State<LoginPage> {
                     onTap: () async {
                       FocusScope.of(context)
                           .unfocus(); // dismiss on screen keyboard
-                      buildShowDialog(context);
-                      setState(() {
-                        _isLoading = true;
-                      });
+
+                      OverlayProgressBar.buildShowDialog(context);
+
+                      // setState(() {
+                      //   _isLoading = true;
+                      // });
 
                       await login(
                           _emailController.text, _passwordController.text);
@@ -128,20 +121,37 @@ class _LoginPageState extends State<LoginPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext ctx) => HomePage()));
+                        Fluttertoast.showToast(
+                            msg: "Login Success",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            duration: Duration(milliseconds: 700),
-                            content: Text(loginResponseModel.error),
-                          ),
+                        Fluttertoast.showToast(
+                          msg: loginResponseModel.error,
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0,
                         );
+
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   SnackBar(
+                        //     duration: Duration(milliseconds: 700),
+                        //     content: Text(loginResponseModel.error),
+                        //   ),
+                        // );
+                        
                         Navigator.of(context)
                             .pop(); // pop progress indicator when getting error message
                       }
 
-                      setState(() {
-                        _isLoading = false;
-                      });
+                      // setState(() {
+                      //   _isLoading = false;
+                      // });
                     },
                     child: Container(
                       alignment: Alignment.center,

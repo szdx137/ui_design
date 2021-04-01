@@ -112,9 +112,7 @@ class _FirstPageState extends State<FirstPage> {
                     ),
                     child: Text(
                       'Google',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                      ),
+                      style: TextStyle(fontSize: 20.0, color: Colors.white),
                     ),
                   ),
                 ),

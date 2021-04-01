@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ui_design/view/first_page.dart';
+import 'package:ui_design/view/home_page.dart';
 
-void main() {
+var token;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  token = prefs.getString('token');
+  print(token);
   runApp(MyApp());
 }
 
@@ -13,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FirstPage(),
+      home: token == null ? FirstPage() : HomePage(),
     );
   }
 }
